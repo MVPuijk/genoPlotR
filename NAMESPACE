@@ -1,0 +1,113 @@
+import("grDevices")
+import("methods")
+import("data.table")
+import("grid")
+importFrom("grid", "pointsGrob", "linesGrob", "gpar")
+importFrom("graphics", "text")
+importFrom("stats", "median", "optim", "weighted.mean", "end", "start")
+importFrom("utils", "read.table", "URLdecode", "head", "tail")
+importFrom("ade4", "newick2phylog", "enum.phylog")
+importFrom("ape", "read.tree", "write.tree", "drop.tip")
+importFrom("gtools", "mixedorder", "mixedsort")
+
+S3method(range, dna_seg)
+S3method(trim, dna_seg)
+S3method(reverse, dna_seg)
+
+S3method(range, comparison)
+S3method(trim, comparison)
+S3method(reverse, comparison)
+
+S3method(range, annotation)
+S3method(trim, annotation)
+
+S3method(trim, seg_plot)
+
+S3method(trim, default)
+S3method(reverse, default)
+
+export(
+  plot_gene_map,
+  
+  dna_seg,
+  as.dna_seg,
+  is.dna_seg,
+  range.dna_seg,
+  
+  comparison,
+  as.comparison,
+  is.comparison,
+  range.comparison,
+  print_comparison,
+  
+  annotation,
+  as.annotation,
+  is.annotation,
+  range.annotation,
+  
+  seg_plot,
+  as.seg_plot,
+  is.seg_plot,
+  trim.seg_plot,
+  
+  run_blast,
+  run_diamond,
+  comparisons_from_dna_segs,
+  genbank_to_fasta,
+  dna_seg_to_fasta,
+  
+  auto_annotate,
+  
+  gradient_color_scheme,
+  apply_color_scheme,
+  sequential_color_scheme,
+  uniform_color_scheme,
+  
+  edit_dna_segs,
+  max_by_group,
+  make_unique_ids,
+  update_dna_segs,
+  update_comparisons,
+  sequential_updates,
+  best_hit,
+  bidirectional_best_hit,
+  
+  gene_types,
+  
+  reverse,
+  trim,
+  
+  middle,
+  human_nt,
+  artemisColors,
+  
+  read_comparison_from_file,
+  read_comparison_from_files,
+  read_comparison_from_blast,
+  read_comparison_from_tab,
+  read_orthogroup_from_file,
+  read_orthogroup_from_orthomcl,
+  read_orthogroup_from_orthofinder,
+  read_orthogroup_from_mmseqs2,
+  read_orthogroup_from_diamond,
+  
+  read_dna_seg_from_file,
+  read_dna_seg_from_files,
+  read_dna_seg_from_embl,
+  read_dna_seg_from_genbank,
+  read_dna_seg_from_fasta,
+  read_dna_seg_from_ptt,
+  read_dna_seg_from_tab,
+  
+  read_mauve_backbone,
+  
+  read_offsets,
+  read_offsets_file,
+  read_xlims,
+  read_xlims_file,
+  
+  permute_dna_segs,
+  trim_tree
+)
+
+
