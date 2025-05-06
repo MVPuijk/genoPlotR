@@ -1750,7 +1750,7 @@ plot_gene_map <- function(
     } else {
       if (suppressWarnings(is.na(as.double(outfile_height)))) {
         stop('The value "', outfile_height, '" for the \'outfile_height\' ',
-             'option could not be recognized as a numeric value')
+             'argument could not be recognized as a numeric value')
       }
       outfile_height <- as.double(outfile_height)
     }
@@ -1774,7 +1774,7 @@ plot_gene_map <- function(
     } else {
       if (suppressWarnings(is.na(as.double(outfile_width)))) {
         stop('The value "', outfile_width, '" for the \'outfile_width\' ',
-             'option could not be recognized as a numeric value')
+             'argument could not be recognized as a numeric value')
       }
       outfile_width <- as.double(outfile_width)
     }

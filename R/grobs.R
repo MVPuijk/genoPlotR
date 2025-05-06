@@ -116,9 +116,7 @@ gene_grob <- function(gene, head_len = 200, i = 0, ...) {
                      just = just, gp = gpar(col = color, cex = gene$cex),
                      default.units = "native")
   } else {
-    print(gene$gene_type)
     grob <- try(do.call(gene$gene_type, list(gene, ...)), silent = FALSE)
-    print(grob)
     if (!(is.grob(grob) || all(sapply(grob, is.grob)))) {
       stop('"', gene$gene_type,
            '" is an invalid gene_type or does not return a grob')

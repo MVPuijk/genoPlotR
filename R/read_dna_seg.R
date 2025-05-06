@@ -332,17 +332,12 @@ read_dna_seg_from_file <- function(
     } else {
       boundaryCount <- 0
     }
-    # boundaryCount <- boundaryCount + 
-    
     
     tagResult <- grep(tagQuery, importedData, value = TRUE)
     intronCount <- sum(lengths(regmatches(tagResult, gregexpr(",", tagResult))))
     
     segLength <- tagCount + boundaryCount + (intronCount * 2)
     
-    print(tagCount)
-    print(boundaryCount)
-    print(intronCount)
     
     # Define variables for storage
     nF <- length(startLineOfFeature) - 1

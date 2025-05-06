@@ -36,7 +36,7 @@
 #' 
 #' @author Lionel Guy, Jens Roat Kultima
 #' 
-#' @references Mauve: https://darlinglab.org/mauve/mauve.html
+#' @references Mauve: <https://darlinglab.org/mauve/mauve.html>
 #' 
 #' @seealso [dna_seg], [comparison]
 #' 

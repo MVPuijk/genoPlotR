@@ -465,8 +465,8 @@ check_fasta <- function(
 #' the names of the `dna_segs` or `files` that were provided as input. If it
 #' cannot find sequence alignment results in the form of `"query_subject"`
 #' (or to put it differently, `"dna_seg1_dna_seg2"`), then it will run DIAMOND
-#' or BLAST to generate these results. The FASTA files required as input for
-#' this are once again looked for, in the same manner as before.
+#' or BLAST to generate these results. Using this system, it also looks for the
+#' FASTA files required as input for the sequence alignment.
 #' 
 #' If `output_path` is left as `NULL`, the current working directory will be 
 #' used instead.
@@ -534,8 +534,8 @@ comparisons_from_dna_segs <- function(
   dna_segs = NULL,
   seg_labels = NULL,
   files = NULL,
-  mode,
-  tool,
+  mode = "full",
+  tool = "blast",
   algorithm = "blastp",
   sensitivity = "default",
   output_path = NULL,
@@ -619,7 +619,7 @@ comparisons_from_dna_segs <- function(
   }
   
   # Check output_path 
-  if (!is.null(output_path) & !dir.exists(output_path)) {
+  if (!is.null(output_path) && !dir.exists(output_path)) {
     stop('The directory "', output_path, '" as specified by ', "'output_path' ",
          'could not be found')
   }
@@ -644,11 +644,11 @@ comparisons_from_dna_segs <- function(
   
   if (filt_length == "auto") {
     if (any(algorithm == blastp_options) | tool == "diamond") {
-      filt_length <- 150
+      filt_length <- 100
     } else if (any(algorithm == blastn_options) & tool != "diamond") {
-      filt_length <- 900
+      filt_length <- 500
     } else if (any(algorithm == "tblastx") & tool != "diamond") {
-      filt_length <- 450
+      filt_length <- 300
     }
   } else {
     filt_length <- as.numeric(filt_length)
@@ -900,13 +900,13 @@ genbank_to_fasta <- function(file,
     deflines <- imported_data[main_inds[which(main_names == "VERSION")]]
     if (length(deflines) == 0) {
       # Probably not necessary
-      deflines <- main_inds[which(main_segment_names == "LOCUS")]
+      deflines <- main_inds[which(main_names == "LOCUS")]
     }
     deflines <- strsplit(gsub(" +", " ", deflines), " ")
     deflines <- sapply(deflines, function(x) paste0(">", unlist(x)[2]))
     
-    origin_start <- main_inds[which(main_segment_names == "ORIGIN")]+1
-    origin_end <- main_inds[which(main_segment_names == "ORIGIN")+1]-1
+    origin_start <- main_inds[which(main_names == "ORIGIN")]+1
+    origin_end <- main_inds[which(main_names == "ORIGIN")+1]-1
     if (any(is.na(origin_end))) {
       stop('Could not detect the end of an ORIGIN field. Does the GenBank ',
            'file properly end with a "//" line?')
@@ -928,7 +928,7 @@ genbank_to_fasta <- function(file,
     
   } else {
     
-    features_end <- main_inds[which(main_segment_names == "FEATURES")+1]
+    features_end <- main_inds[which(main_names == "FEATURES")+1]
     all_indices <- grep(
       "^( {5}|\\t|FT {3})[[:alnum:]'_-]+[[:space:]]+(complement|join|order|[[:digit:]<,])",
       imported_data
@@ -1088,7 +1088,7 @@ dna_seg_to_fasta <- function(dna_seg_input,
   }
   
   # Check output_path 
-  if (!is.null(output_path) & !dir.exists(output_path)) {
+  if (!is.null(output_path) && !dir.exists(output_path)) {
     stop('The directory "', output_path, '" as specified by ',
          "'output_path' ", 'could not be found')
   }
