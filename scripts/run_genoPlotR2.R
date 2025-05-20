@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 ################################################################################
-# Wrapper script for genoPlotR2
+# Wrapper script for genoPlotR
 ################################################################################
 
 ################################################################################
@@ -351,90 +351,24 @@ opt_p <- optparse::OptionParser(
   usage = '%prog -g ["dna_seg files"] [options]')
 opt = optparse::parse_args(opt_p)
 
-### Test arguments
+### DEBUG arguments
 
-input_dir <- ifelse(Sys.info()["sysname"] == "Windows",
-                    "D:/Documents", "/mnt/d/Documents")
-dataset <- "report_test"
-output_dir <- file.path(input_dir, "genoplotr2/rout", dataset)
-
-# # opt$seg_files <- file.path(input_dir, "genoplotr2/for_mike/altered/*.gbk")
-# opt$seg_files <- paste0(input_dir, "/genoplotr2/for_mike/altered/GCA*,", input_dir, "/genoplotr2/for_mike/altered/GCF_000092505.1.gbk")
-# opt$dna_segs_out <- "out/demoset_raw_segs.RDS"
-# opt$ids <- "examples/ids.lactall.tsv"
-# # opt$ids <- NA
-# opt$id_tags <- "name,gene"
-# opt$dna_seg_mode <- "all"
-# opt$comp_path <- file.path(output_dir, "comps")
-# # opt$comp_path <- output_dir
-# opt$comp_format <- "diamond"
-# opt$comp_mode <- "full"
-# opt$update_positions <- "auto"
-# opt$update_region_plot <- "auto"
-# opt$out <- file.path(output_dir, paste0(dataset, ".pdf"))
-# opt$height <- "auto"
-# opt$width <- "auto"
-# opt$tree <- file.path(input_dir, "genoplotr2/for_mike/lactobacillaceae.tre")
-# # opt$tree <- NA
-# opt$annotations <- TRUE
-# opt$legend <- "auto"
-# opt$dna_seg_scale <- TRUE
-# opt$global_color_scheme <- "sequential"
-# opt$alpha_comparisons <- 0.5
-# opt$alpha_dna_segs <- NA
-# opt$region_size <- 10000
-# opt$print_xlims <- FALSE
-# opt$xlims_out <- NA
-# opt$xlims_in <- NA
-# opt$xlims_from_file <- NA
-# opt$offsets_in <- NA
-# opt$offsets_from_file <- NA
-# opt$threads <- 1
-# opt$verbose <- TRUE
-# opt$help <- FALSE
-
-# # opt$seg_files <- file.path(input_dir, "genoplotr2/for_mike/tubulins/send/gbf/*.gbf")
-# opt$seg_files <- "out/tubulins.RDS"
-# opt$dna_segs_out <- "out/tubulin_raw_segs.RDS"
-# opt$ids <- file.path(input_dir, "genoplotr2/for_mike/tubulins/send/ids.tsv")
-# opt$id_tags <- "name,locus_id"
-# opt$dna_seg_mode <- "all"
-# opt$comp_path <- output_dir
-# opt$comp_format <- "diamond"
-# opt$comp_mode <- "full"
-# opt$update_positions <- "auto"
-# opt$update_region_plot <- "auto"
-# opt$out <- file.path(output_dir, paste0(dataset, ".pdf"))
-# opt$height <- "auto"
-# opt$width <- "auto"
-# opt$tree <- NA
-# opt$annotations <- TRUE
-# opt$dna_seg_scale <- TRUE
-# # opt$global_color_scheme <- "sequential"
-# opt$alpha_comparisons <- 0.5
-# opt$alpha_dna_segs <- NA
-# opt$region_size <- 10000
-# opt$print_xlims <- FALSE
-# opt$xlims_out <- NA
-# opt$xlims_in <- NA
-# opt$xlims_from_file <- NA
-# opt$offsets_in <- NA
-# opt$offsets_from_file <- NA
-# opt$threads <- 1
-# opt$verbose <- TRUE
-# opt$help <- FALSE
+# input_dir <- ifelse(Sys.info()["sysname"] == "Windows",
+#                     "D:/Documents", "/mnt/d/Documents")
+# dataset <- "report_test"
+# output_dir <- file.path(input_dir, "genoPlotR/out", dataset)
 
 # opt$seg_files <- "out/report_test_raw.RDS"
 # opt$dna_segs_out <- "out/report_test_raw2.RDS"
-# opt$ids <- file.path(input_dir, "genoplotr2/for_mike/tubulins/send/ids_smol.tsv")
+# opt$ids <- file.path(input_dir, "genoPlotR/data/ids.tsv")
 # opt$id_tags <- "name, locus_id"
 # opt$dna_seg_mode <- "fast"
 # opt$comp_format <- "diamond"
-# opt$comp_path <- file.path(input_dir, "genoplotr2/rout/tubulin")
+# opt$comp_path <- output_dir
 # opt$comp_mode <- "full"
 # opt$update_positions <- "auto"
 # opt$update_region_plot <- "auto"
-# opt$out <- file.path(input_dir, "genoplotr2/rout/report_test_fast2.pdf")
+# opt$out <- file.path(output_dir, "report_test.pdf")
 # opt$height <- "auto"
 # opt$width <- "auto"
 # opt$tree <- NA
@@ -498,13 +432,15 @@ if (verbose) cat_time("Checking arguments.")
 
 # Check seg_files
 if (is.na(opt$seg_files)) {
-  stop_help(opt_p, 'dna_seg files must be provided using the --seg_files option')
+  stop_help(opt_p,
+            'dna_seg files must be provided using the --seg_files option')
 }
 dna_seg_files <- unlist(strsplit(opt$seg_files, "\\, ?"))
 if (length(dna_seg_files) == 1 & all(endsWith(dna_seg_files, ".RDS"))) {
   read_in_RDS <- TRUE
   if (!file.exists(dna_seg_files)) {
-    stop_help(opt_p, "Could not find the specified dna_seg files (--seg_files)")
+    stop_help(opt_p,
+              "Could not find the specified dna_seg files (--seg_files)")
   }
 } else {
   read_in_RDS <- FALSE
@@ -901,9 +837,11 @@ if (use_ids) {
           query <- grep(paste0("\\<", i, "\\>"), basename(dna_seg_files))
         }
         if (length(query) != 1) {
-          stop_help(opt_p, 'Multiple matches found for seg_label "', i, '" in ',
+          stop_help(opt_p,
+                    'Multiple matches found for seg_label "', i, '" in ',
                     'the dna_seg file names, make sure the seg_labels match ',
-                    'the filenames exactly')
+                    'the filenames exactly'
+                    )
         }
       }
       query <- as.numeric(query)
@@ -1158,7 +1096,9 @@ if (seg_mode == "fast") {
     for (i in 1:(length(seg_labels)-1)) {
       # Now load in remaining dna_segs and comparisons sequentially
       comp <- comparisons_from_dna_segs(
-        dna_segs = list(new_order[[seg_labels[i]]], dna_segs[[seg_labels[i+1]]]),
+        dna_segs = list(new_order[[seg_labels[i]]],
+                        dna_segs[[seg_labels[i+1]]]
+                        ),
         mode = comp_mode,
         tool = comp_format,
         algorithm = comp_format,
@@ -1384,8 +1324,8 @@ if (use_tree) {
 }
 
 ### DEBUG
-saveRDS(dna_segs, file.path(dirname(outfile), paste0(substr(basename(outfile), 1, nchar(basename(outfile))-4), "_segs.RDS")))
-saveRDS(comparisons, file.path(dirname(outfile), paste0(substr(basename(outfile), 1, nchar(basename(outfile))-4), "_comps.RDS")))
+# saveRDS(dna_segs, file.path(dirname(outfile), paste0(substr(basename(outfile), 1, nchar(basename(outfile))-4), "_segs.RDS")))
+# saveRDS(comparisons, file.path(dirname(outfile), paste0(substr(basename(outfile), 1, nchar(basename(outfile))-4), "_comps.RDS")))
 
 # Determine offsets
 if (offset_input == "infile") {

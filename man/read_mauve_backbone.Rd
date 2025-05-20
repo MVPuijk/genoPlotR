@@ -69,7 +69,7 @@ plot_gene_map(dna_segs = bbone$dna_segs, comparisons = bbone$comparisons)
 
 }
 \references{
-Mauve: https://darlinglab.org/mauve/mauve.html
+Mauve: \url{https://darlinglab.org/mauve/mauve.html}
 }
 \seealso{
 \link{dna_seg}, \link{comparison}

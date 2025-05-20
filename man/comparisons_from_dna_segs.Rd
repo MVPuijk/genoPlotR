@@ -8,8 +8,8 @@ comparisons_from_dna_segs(
   dna_segs = NULL,
   seg_labels = NULL,
   files = NULL,
-  mode,
-  tool,
+  mode = "full",
+  tool = "blast",
   algorithm = "blastp",
   sensitivity = "default",
   output_path = NULL,
@@ -90,8 +90,8 @@ required using a combination of the \code{seg_labels} (if these are provided), a
 the names of the \code{dna_segs} or \code{files} that were provided as input. If it
 cannot find sequence alignment results in the form of \code{"query_subject"}
 (or to put it differently, \code{"dna_seg1_dna_seg2"}), then it will run DIAMOND
-or BLAST to generate these results. The FASTA files required as input for
-this are once again looked for, in the same manner as before.
+or BLAST to generate these results. Using this system, it also looks for the
+FASTA files required as input for the sequence alignment.
 
 If \code{output_path} is left as \code{NULL}, the current working directory will be
 used instead.

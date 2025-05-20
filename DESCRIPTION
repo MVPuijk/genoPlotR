@@ -5,6 +5,7 @@ Version: 2.0.0
 Date: 2024-05-16
 Author: Lionel Guy <lionel.guy@imbim.uu.se>,  Mike V. Puijk <mikepuijk@hotmail.com>
 Depends:
+    R (>= 2.10.0),
     grid
 Imports: 
     ade4,

@@ -38,7 +38,7 @@ a first approach to the package.
 To load the library in an R session, type:
 
 ```{r setup, message=FALSE}
-devtools::load_all(".")
+library(genoPlotR)
 ```
 
 &NewLine;  
@@ -57,7 +57,7 @@ comparisons <- three_genes$comparisons
 comparisons[[1]]$col <- apply_color_scheme(c(0.6, 0.4, 0.5), "grey")
 names <- c("Huey", "Dewey", "Louie")
 names(dna_segs) <- names
-tree <- newick2phylog("(((Huey:4.2,Dewey:3.9):3.1,Louie:7.3):1);")
+tree <- ade4::newick2phylog("(((Huey:4.2,Dewey:3.9):3.1,Louie:7.3):1);")
 mid_pos <- middle(dna_segs[[1]])
 xlims <- list(c(Inf, -Inf), c(-Inf, Inf), c(1850, 2800))
 annot <- annotation(x1 = c(mid_pos[1], dna_segs[[1]]$end[2]),
@@ -183,7 +183,7 @@ str(annot1)
 
 A tree description in Newick format can be parsed using the `ade4` package.
 ```{r tree}
-tree <- newick2phylog("(((A_aaa:4.2,B_bbb:3.9):3.1,C_ccc:7.3):1);")
+tree <- ade4::newick2phylog("(((A_aaa:4.2,B_bbb:3.9):3.1,C_ccc:7.3):1);")
 str(tree$leaves)
 ``` 
 
@@ -346,7 +346,7 @@ plots.
 For all examples, the first step is to load the library.
 
 ```{r examples, message=FALSE}
-devtools::load_all(".")
+library(genoPlotR)
 ```
 
 ## Example 1: A very simple example
@@ -426,7 +426,7 @@ tree object, to avoid confusion.
 ```{r ex1_tree}
 names <- c("Huey", "Dewey", "Louie")
 names(dna_segs) <- names
-tree_HDL <- newick2phylog("(((Huey:4.2,Dewey:3.9):3.1,Louie:7.3):1);")
+tree_HDL <- ade4::newick2phylog("(((Huey:4.2,Dewey:3.9):3.1,Louie:7.3):1);")
 ```
 
 Third, annotations to the first segment are added. The first gene is annotated
@@ -627,7 +627,7 @@ First, the data is loaded and a tree is created.
 
 ```{r ex4_load_tree}
 data(barto)
-tree_barto <- newick2phylog("(BB:2.5,(BG:1.8,(BH:1,BQ:0.8):1.9):3);")
+tree_barto <- ade4::newick2phylog("(BB:2.5,(BG:1.8,(BH:1,BQ:0.8):1.9):3);")
 ```
 
 The `xlims` argument is then created. It is a list with as many elements
@@ -1049,4 +1049,3 @@ plot_gene_map(barto$dna_segs, barto$comparisons, tree = tree_barto,
               seg_plot_yaxis = 2,
               seg_plot_yaxis_cex = 0.7)
 ```
-

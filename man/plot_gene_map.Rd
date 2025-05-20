@@ -555,7 +555,7 @@ end2   <- c(240, 420, 650, 330)
 ## dna_segs
 ds1 <- as.dna_seg(data.frame(name = c("", "", "", "geno", "R"),
                              start = start1, end = end1, strand = rep(1, 5),
-                             col = col_vec[c(2, 6, 1, 8, 9)]
+                             fill = col_vec[c(2, 6, 1, 8, 9)]
                              ))
 ds_genoR <- edit_dna_segs(ds1, ids = data.frame(id = c("geno", "R"), 
                                                 cex = c(2.3, 2.3),
@@ -563,7 +563,8 @@ ds_genoR <- edit_dna_segs(ds1, ids = data.frame(id = c("geno", "R"),
                                                 ))
 ds2 <- as.dna_seg(data.frame(name = c("", "", "", "Plot"),
                              start = start2, end = end2,
-                             strand = rep(1, 4), col = col_vec[c(5, 3, 7, 1)]
+                             strand = rep(1, 4),
+                             fill = col_vec[c(5, 3, 7, 1)]
                              ))
 ds_Plot <- edit_dna_segs(ds2, ids = data.frame(id = "Plot", 
                                                cex = 2.3,
@@ -572,7 +573,7 @@ ds_Plot <- edit_dna_segs(ds2, ids = data.frame(id = "Plot",
 ## comparison
 c1 <- as.comparison(data.frame(start1 = start1[1:3], end1 = end1[1:3],
                                start2 = start2[1:3], end2 = end2[1:3],
-                               col = grey(c(0.6, 0.8, 0.5))))
+                               fill = grey(c(0.6, 0.8, 0.5))))
 ## Generate genoPlotR logo
 \dontrun{
   pdf("logo.pdf", h = 0.7, w = 3)
