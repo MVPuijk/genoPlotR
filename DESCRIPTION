@@ -2,7 +2,7 @@ Package: genoPlotR
 Type: Package
 Title: Plot Publication-Grade Gene and Genome Maps
 Version: 2.0.0
-Date: 2024-05-16
+Date: 2025-05-20
 Author: Lionel Guy <lionel.guy@imbim.uu.se>,  Mike V. Puijk <mikepuijk@hotmail.com>
 Depends:
     R (>= 2.10.0),
@@ -19,7 +19,7 @@ Suggests:
     knitr,
     optparse,
     rmarkdown
-Maintainer: Mike V. Puijk <mikepuijk@hotmail.com>
+Maintainer: Lionel Guy <lionel.guy@imbim.uu.se>
 Description: Draws gene or genome maps and comparisons between these, in a 
    publication-grade manner. Starting from simple, common files, it will 
    draw postscript or PDF files that can be sent as such to journals.
