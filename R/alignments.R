@@ -500,8 +500,10 @@ check_fasta <- function(
 #' @param all_vs_all Logical. If `TRUE`, sequence alignments will be performed
 #' for every combination of the inputs, instead of just the ones necessary for
 #' plotting. Note that this can take a long time, so use with caution.
-#' @param filt_high_evalue
-#' @param filt_low_per_id
+#' @param filt_high_evalue A numerical, filters out all comparisons with an 
+#' e-value higher than this value (unfiltered when left as `NULL`).
+#' @param filt_low_per_id A numerical, filters out all comparisons with a
+#' percentage identity lower than this value (unfiltered when left as `NULL`).
 #' @param filt_length A number indicating the minimum length required for hits,
 #' or `"auto"`. If `"auto"`, it will be determined based on the choice of `tool`
 #' and `algorithm` (150 for DIAMOND or any blastp algorithm, 450 for tblastx,
@@ -671,7 +673,6 @@ comparisons_from_dna_segs <- function(
   
   # Run alignment
   comparisons <- list()
-  file_type <- switch(tool, "blast", "diamond" = {"blast"})
   for (i in 1:(length(seg_labels) -1)) {
     full_path <- file.path(output_path,
                            paste0(seg_labels[[i]], "_", seg_labels[[i+1]])
@@ -720,7 +721,6 @@ comparisons_from_dna_segs <- function(
     
     comparisons[[i]] <- read_comparison_from_blast(
       full_path,
-      fileType = file_type,
       filt_length = filt_length,
       filt_high_evalue = filt_high_evalue,
       filt_low_per_id = filt_low_per_id
@@ -779,7 +779,6 @@ comparisons_from_dna_segs <- function(
       }
       other_direction <- read_comparison_from_blast(
         full_path,
-        fileType = file_type,
         filt_length = filt_length,
         filt_high_evalue = filt_high_evalue,
         filt_low_per_id = filt_low_per_id
