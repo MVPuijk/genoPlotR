@@ -10,14 +10,16 @@ formats such as GenBank and BLAST results, as well as home-made tabular files.
 
 # Installation
 
-## GitHub
+To install the latest stable version of genoPlotR:
 
-To install the latest version of genoPlotR from GitHub, the devtools package
-has to be installed first.
+    install.packages("genoPlotR")
+
+To install the latest development version of genoPlotR from GitHub, the 
+devtools package has to be installed first.
 
     install.packages("devtools")
     
-Afterwards, genoPlotR can be installed as follows:
+If devtools is already installed, genoPlotR can be installed as follows:
 
     devtools::install_github("MVPuijk/genoPlotR")
 

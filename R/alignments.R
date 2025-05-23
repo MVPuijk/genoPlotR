@@ -500,6 +500,8 @@ check_fasta <- function(
 #' @param all_vs_all Logical. If `TRUE`, sequence alignments will be performed
 #' for every combination of the inputs, instead of just the ones necessary for
 #' plotting. Note that this can take a long time, so use with caution.
+#' @param filt_high_evalue
+#' @param filt_low_per_id
 #' @param filt_length A number indicating the minimum length required for hits,
 #' or `"auto"`. If `"auto"`, it will be determined based on the choice of `tool`
 #' and `algorithm` (150 for DIAMOND or any blastp algorithm, 450 for tblastx,
@@ -510,9 +512,7 @@ check_fasta <- function(
 #' themselves.
 #' @param verbose Logical. If `TRUE`, reports timings when creating new files.
 #' @param ... Arguments to pass to other functions (the functions executing
-#' the sequence alignments tools, [run_blast], and [run_diamond], and the
-#' function for parsing BLAST/ DIAMOND results, 
-#' [read_comparison_from_blast]).
+#' the sequence alignments tools, [run_blast], and [run_diamond]).
 #' 
 #' @author Mike Puijk
 #' 
@@ -540,6 +540,8 @@ comparisons_from_dna_segs <- function(
   sensitivity = "default",
   output_path = NULL,
   all_vs_all = FALSE,
+  filt_high_evalue = NULL,
+  filt_low_per_id = NULL,
   filt_length = "auto",
   use_cache = TRUE,
   verbose = FALSE,
@@ -716,11 +718,13 @@ comparisons_from_dna_segs <- function(
       full_path <- full_path_alt
     }
     
-    comparisons[[i]] <- read_comparison_from_file(full_path,
-                                                  fileType = file_type,
-                                                  filt_length = filt_length,
-                                                  ...
-                                                  )
+    comparisons[[i]] <- read_comparison_from_blast(
+      full_path,
+      fileType = file_type,
+      filt_length = filt_length,
+      filt_high_evalue = filt_high_evalue,
+      filt_low_per_id = filt_low_per_id
+    )
     if (mode == "besthit" | mode == "bidirectional") {
       comparisons[[i]] <- best_hit(comparisons[[i]])
     }
@@ -773,11 +777,13 @@ comparisons_from_dna_segs <- function(
         # File was found under an alternate name, adjust full_path to match
         full_path <- full_path_alt
       }
-      other_direction <- read_comparison_from_file(full_path,
-                                                   fileType = file_type,
-                                                   filt_length = filt_length,
-                                                   ...
-                                                   )
+      other_direction <- read_comparison_from_blast(
+        full_path,
+        fileType = file_type,
+        filt_length = filt_length,
+        filt_high_evalue = filt_high_evalue,
+        filt_low_per_id = filt_low_per_id
+      )
       other_direction <- best_hit(other_direction)
       comparisons[[i]] <- bidirectional_best_hit(comparisons[[i]],
                                                  other_direction)

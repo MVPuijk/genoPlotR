@@ -24,25 +24,6 @@ option_list <- list(
       'of dna_segs.',
       sep = "\n\t\t")),
   optparse::make_option(
-    c("-S", "--dna_segs_out"), action = "store", default = NA, 
-    type = "character", metavar = "[file path]",
-    help = paste(
-      'Name of output dna_segs file. If provided, the dna_segs',
-      'will be saved as an R object just after reading them in,',
-      'before any alterations are made to it. This way, this',
-      'script can be called again using the same arguments, except',
-      'for providing this file to --seg_files, which should in',
-      'most cases produce the same result, but without having to',
-      'wait for the dna_seg files to be parsed.', sep = "\n\t\t")),
-  optparse::make_option(
-    c("--workspace_out"), action = "store", default = NA, 
-    type = "character", metavar = "[file path]",
-    help = paste(
-      'Name of output file. If provided, all of the arguments that',
-      'are passed to main plot function (plot_gene_map) are saved',
-      'to this file as well, as an R object that can be loaded in',
-      'R using the readRDS() function.', sep = "\n\t\t")),
-  optparse::make_option(
     c("-i", "--ids"), action = "store", default = NA, type = "character",
     metavar = "[file path]",
     help = paste(
@@ -117,7 +98,7 @@ option_list <- list(
     help = paste(
       'Path to the directory for the comparison files, or the path',
       'to a file containing orthogroups, if --comp_format is',
-      '"orthofinder" or "orthomcl" This option is ignored if',
+      '"orthofinder" or "orthomcl". This option is ignored if',
       '--comp_format is not provided. With a --comp_format of',
       'DIAMOND or any BLAST program, this script will attempt to',
       'create the necessary comparison files if it can not locate',
@@ -332,6 +313,25 @@ option_list <- list(
     c("--print_offsets"), action = "store_true", default = FALSE,
     help = 'Prints out offset positions to the terminal.'),
   optparse::make_option(
+    c("-S", "--dna_segs_out"), action = "store", default = NA, 
+    type = "character", metavar = "[file path]",
+    help = paste(
+      'Name of output dna_segs file. If provided, the dna_segs',
+      'will be saved as an R object just after reading them in,',
+      'before any alterations are made to it. This way, this',
+      'script can be called again using the same arguments, except',
+      'for providing this file to --seg_files, which should in',
+      'most cases produce the same result, but without having to',
+      'wait for the dna_seg files to be parsed.', sep = "\n\t\t")),
+  optparse::make_option(
+    c("--workspace_out"), action = "store", default = NA, 
+    type = "character", metavar = "[file path]",
+    help = paste(
+      'Name of output file. If provided, all of the arguments that',
+      'are passed to main plot function (plot_gene_map) are saved',
+      'to this file as well, as an R object that can be loaded in',
+      'R using the readRDS() function.', sep = "\n\t\t")),
+  optparse::make_option(
     c("-n", "--threads"), action = "store", default = 1, type = "integer",
     metavar = "[NUM]",
     help = paste(
@@ -401,6 +401,36 @@ cat_time <- function(...) {
 stop_help <- function(opt_p, ...) {
   optparse::print_help(opt_p)
   stop(..., call. = FALSE)
+}
+
+# Internal helper function to get dna_seg labels
+# Is here to avoid making its copy in the package itself public
+get_seg_labels <- function(dna_segs, seg_labels, required = FALSE) {
+  if (is.null(seg_labels)) {
+    if (length(dna_segs) == sum(names(dna_segs) != "", na.rm = TRUE)) {
+      # If each element of dna_segs is named, use those
+      seg_labels <- names(dna_segs)
+    } else {
+      # Does each element of the dna_segs list have a "seg_label" atrribute?
+      seg_labels <- unlist(lapply(dna_segs, attr, "seg_label"))
+      if (length(dna_segs) == length(seg_labels) & 
+          !any(duplicated(seg_labels))
+      ) {
+        seg_labels <- unlist(lapply(dna_segs, attr, "seg_label"))
+      }
+    }
+  }
+  if (is.null(seg_labels) & required) {
+    seg_labels <- paste(rep("dna_seg", length(dna_segs)),
+                        seq(1:length(dna_segs)),
+                        sep = "_"
+    )
+  }
+  # check length of labels
+  if (!is.null(seg_labels) && !(length(seg_labels) == length(dna_segs)))
+    stop("'seg_labels' must be NULL or the same length as 'dna_segs'")
+  
+  seg_labels
 }
 
 # Check flags
@@ -786,9 +816,13 @@ if (is.na(threads)) {
 }
 threads <- round(threads)
 
-# Load package
-library(devtools)
-load_all(".")
+# Load necessary packages
+library(genoPlotR)
+library(data.table)
+
+### DEBUG
+# library(devtools)
+# load_all(".")
 
 ################################################################################
 # Parsing/ preparing dna_segs
@@ -1329,7 +1363,7 @@ if (use_tree) {
 
 # Determine offsets
 if (offset_input == "infile") {
-  offsets <- read_offsets_from_file(opt$offsets_from_file)
+  offsets <- read_offsets_file(opt$offsets_from_file)
 } else if (offset_input == "input") {
   offsets <- read_offsets(opt$offsets_in)
 } else {

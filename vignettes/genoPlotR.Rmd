@@ -82,22 +82,6 @@ plot_gene_map(dna_segs = dna_segs, comparisons = comparisons,
 
 # Getting help
 
-There are various ways to get help with **genoPlotR**. First, you can start 
-the general help in a web browser, and then click on ``packages'' and 
-find **genoPlotR** in the list. It will provide a list of the functions 
-available. The first link in the list leads to a very general description of
-the package.
-
-```{r getting_help1, eval=FALSE, results='hide'}
-help.start()
-```
-
-Another way of obtaining the list of functions present in the package is to run:
-
-```{r getting_help2, eval=FALSE}
-library(help = genoPlotR)
-```
-
 A lot of examples and help are available in the main functions, i.e. the 
 reading functions (the various `read_dna_seg_from*` and 
 `read_comparison_from*` functions) and the main plotting 
@@ -109,7 +93,8 @@ help("read_comparison")
 help("plot_gene_map")
 ```
 
-Finally, the web pages on [R-forge](http://genoplotr.r-forge.r-project.org/)
+Additionally, the web pages on 
+[R-forge](http://genoplotr.r-forge.r-project.org/)
 and [GitHub](https://github.com/MVPuijk/genoPlotR)
 provide ways to get in touch with the **genoPlotR** community and to submit 
 bugs and feature requests.
@@ -501,7 +486,7 @@ Do this for both NC_005956 and NC_005955.
 
 The two previously retrieved genomes can be compared with BLAST, which can be
 done locally or online. The online version of BLAST can be found on the NCBI
-website [https://blast.ncbi.nlm.nih.gov/Blast.cgi](here). From there, the 
+website [here](https://blast.ncbi.nlm.nih.gov/Blast.cgi). From there, the 
 genomes can be aligned by entering `NC_005956` as the query sequence, selecting
 "Align two or more sequences", and then entering `NC_005955` as the subject
 sequence. The other arguments to BLAST can then be modified at will to suit 
