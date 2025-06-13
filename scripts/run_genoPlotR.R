@@ -181,18 +181,21 @@ option_list <- list(
   optparse::make_option(
     c("--annotations"), action = "store_true", default = FALSE,
     help = paste(
-      'Gene annotations from "gene name" and "product"',
-      'will be plotted.', sep = "\n\t\t")),
+      'Gene annotations from the "gene" column will be plotted.',
+      sep = "\n\t\t")),
   optparse::make_option(
     c("-l", "--legend_column"), action = "store", default = NA, 
     type = "character", metavar = "[column]",
     help = paste(
       'A dna_seg column to use as the basis for plotting a legend.',
       'Must be the name of a column that appears in all dna_segs or',
-      '"auto", in which case it will pick the "gene" column if it is',
-      'present, and the "name" column if it is not. A legend will',
-      'then be plotted based on the colors of the dna_seg features,',
-      'using all of the unique values found in the chosen column.',
+      '"auto". When "auto", it will use the "gene" column if it is',
+      'present, and the "name" column if it is not, unless',
+      '--global_color_scheme is set to "uniform", in which case it',
+      'will automatically use the same column as the one used to',
+      'generate the color scheme. A legend will then be plotted',
+      'based on the colors of the dna_seg features, using all of',
+      'the unique values found in the chosen column.',
       sep = "\n\t\t")),
   optparse::make_option(
     c("-g", "--global_color_scheme"), action = "store", default = NA, 
@@ -1419,18 +1422,6 @@ if (!is.na(workspace_out)) {
 
 # Plotting
 if (verbose) cat_time("Plotting to: ", outfile)
-
-
-'
-                          reorder_xlims=FALSE, # unimplemented
-                          gene_type=NULL,      # if not null, resets gene_type
-                          arrow_head_len=200,  # force arrow head length
-                          dna_seg_line=TRUE,   # draw a line on each dna_seg
-                          scale=TRUE,          # scale in the bottom right
-                          dna_seg_scale=FALSE, # scale on each dna_seg
-                          n_scale_ticks=7,     # number of tick marks for these
-                          scale_cex=0.6,       # size of text on scale
-'
 
 plot_gene_map(
   dna_segs = dna_segs,
