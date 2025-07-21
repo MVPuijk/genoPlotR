@@ -8,4 +8,11 @@
 \description{
 Draws gene or genome maps and comparisons between these, in a publication-grade manner. Starting from simple, common files, it will draw postscript or PDF files that can be sent as such to journals.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mvpuijk.github.io/genoPlotR/}
+}
+
+}
 \keyword{internal}

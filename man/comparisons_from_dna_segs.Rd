@@ -14,6 +14,8 @@ comparisons_from_dna_segs(
   sensitivity = "default",
   output_path = NULL,
   all_vs_all = FALSE,
+  filt_high_evalue = NULL,
+  filt_low_per_id = NULL,
   filt_length = "auto",
   use_cache = TRUE,
   verbose = FALSE,
@@ -56,6 +58,12 @@ be stored here.}
 for every combination of the inputs, instead of just the ones necessary for
 plotting. Note that this can take a long time, so use with caution.}
 
+\item{filt_high_evalue}{A numerical, filters out all comparisons with an
+e-value higher than this value (unfiltered when left as \code{NULL}).}
+
+\item{filt_low_per_id}{A numerical, filters out all comparisons with a
+percentage identity lower than this value (unfiltered when left as \code{NULL}).}
+
 \item{filt_length}{A number indicating the minimum length required for hits,
 or \code{"auto"}. If \code{"auto"}, it will be determined based on the choice of \code{tool}
 and \code{algorithm} (150 for DIAMOND or any blastp algorithm, 450 for tblastx,
@@ -69,9 +77,7 @@ themselves.}
 \item{verbose}{Logical. If \code{TRUE}, reports timings when creating new files.}
 
 \item{...}{Arguments to pass to other functions (the functions executing
-the sequence alignments tools, \link{run_blast}, and \link{run_diamond}, and the
-function for parsing BLAST/ DIAMOND results,
-\link{read_comparison_from_blast}).}
+the sequence alignments tools, \link{run_blast}, and \link{run_diamond}).}
 }
 \value{
 A list of \code{comparison} objects.
