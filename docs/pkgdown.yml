@@ -1,0 +1,13 @@
+pandoc: '3.4'
+pkgdown: 2.0.9
+pkgdown_sha: ~
+articles:
+  editing_data: editing_data.html
+  generating_comparisons: generating_comparisons.html
+  genoPlotR: genoPlotR.html
+  wrapper_script: wrapper_script.html
+last_built: 2025-07-21T12:34Z
+urls:
+  reference: https://mvpuijk.github.io/genoPlotR/reference
+  article: https://mvpuijk.github.io/genoPlotR/articles
+
