@@ -27,9 +27,3 @@ Finally, if you want to run the command-line wrapper script `run_genoplot.R`,
 you must also install the optparse package:
 
     install.packages("optparse")
-
-# Documentation
-
-Full documentation and vignettes can be found here:
-
-https://mvpuijk.github.io/genoPlotR/index.html
